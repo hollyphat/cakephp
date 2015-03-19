@@ -109,10 +109,9 @@ class Marshaller
 
         $entity = null;
         if (array_intersect($primaryKey, array_keys($data)) == $primaryKey) {
-            $tableName = $this->_table->alias();
             $query = $this->_table->find('all');
             foreach ($primaryKey as $pkey) {
-                $query->where(["$tableName.$pkey" => $data[$pkey]]);
+                $query->where([$this->_table->aliasField($pkey) => $data[$pkey]]);
             }
             $entity = $query->first();
         }
